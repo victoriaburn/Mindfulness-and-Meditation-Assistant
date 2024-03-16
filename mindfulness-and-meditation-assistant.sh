@@ -26,6 +26,16 @@ read mindfulness_duration
 spd-say "Now, let's practice mindfulness. Close your eyes and focus on your breath. Notice the sensation of the air entering and leaving your body."
 sleep $mindfulness_duration
 
+# Ask user if they want a guided meditation
+echo "Would you like a guided meditation? (yes/no):"
+read guided_meditation_answer
+
+if [ "$guided_meditation_answer" == "yes" ]; then
+    # Guided meditation
+    spd-say "Now, imagine you are in a peaceful place. It could be a forest, a beach, or anywhere you find calming. Visualize the details of this place. What do you see? What do you hear? What do you smell? Stay in this place for as long as you need."
+    sleep $mindfulness_duration
+fi
+
 # Ask user for the duration of the reflection time
 echo "Please enter the duration (in seconds) for the reflection time:"
 read reflection_duration
