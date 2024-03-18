@@ -3,9 +3,13 @@
 # Welcome message
 spd-say "Welcome to your mindfulness and meditation session. Let's start with a deep breath."
 
-# Ask user for the duration of the breathing exercises
+# Ask user for the duration of the breathing exercises, mindfulness exercise and reflection time
 echo "Please enter the duration (in seconds) for each part of the breathing exercises:"
 read breathing_duration
+echo "Please enter the duration (in seconds) for the mindfulness exercise:"
+read mindfulness_duration
+echo "Please enter the duration (in seconds) for the reflection time:"
+read reflection_duration
 
 # Breathing exercises
 for i in {1..5}
@@ -17,10 +21,6 @@ do
     spd-say "Exhale slowly."
     sleep $breathing_duration
 done
-
-# Ask user for the duration of the mindfulness exercise
-echo "Please enter the duration (in seconds) for the mindfulness exercise:"
-read mindfulness_duration
 
 # Mindfulness exercise
 spd-say "Now, let's practice mindfulness. Close your eyes and focus on your breath. Notice the sensation of the air entering and leaving your body."
@@ -35,10 +35,6 @@ if [ "$guided_meditation_answer" == "yes" ]; then
     spd-say "Now, imagine you are in a peaceful place. It could be a forest, a beach, or anywhere you find calming. Visualize the details of this place. What do you see? What do you hear? What do you smell? Stay in this place for as long as you need."
     sleep $mindfulness_duration
 fi
-
-# Ask user for the duration of the reflection time
-echo "Please enter the duration (in seconds) for the reflection time:"
-read reflection_duration
 
 # Reflection
 spd-say "Now, reflect on your day. Think about what went well and what you could improve."
