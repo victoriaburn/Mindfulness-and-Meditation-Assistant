@@ -4,12 +4,9 @@
 spd-say "Welcome to your mindfulness and meditation session. Let's start with a deep breath."
 
 # Ask user for the duration of the breathing exercises, mindfulness exercise and reflection time
-echo "Please enter the duration (in seconds) for each part of the breathing exercises:"
-read breathing_duration
-echo "Please enter the duration (in seconds) for the mindfulness exercise:"
-read mindfulness_duration
-echo "Please enter the duration (in seconds) for the reflection time:"
-read reflection_duration
+read -p "Please enter the duration (in seconds) for each part of the breathing exercises: " breathing_duration
+read -p "Please enter the duration (in seconds) for the mindfulness exercise: " mindfulness_duration
+read -p "Please enter the duration (in seconds) for the reflection time: " reflection_duration
 
 # Breathing exercises
 for i in {1..5}
@@ -27,8 +24,7 @@ spd-say "Now, let's practice mindfulness. Close your eyes and focus on your brea
 sleep $mindfulness_duration
 
 # Ask user if they want a guided meditation
-echo "Would you like a guided meditation? (yes/no):"
-read guided_meditation_answer
+read -p "Would you like a guided meditation? (yes/no): " guided_meditation_answer
 
 if [ "$guided_meditation_answer" == "yes" ]; then
     # Guided meditation
