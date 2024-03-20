@@ -39,4 +39,14 @@ sleep $reflection_duration
 # Conclusion
 spd-say "Great job! You have completed your mindfulness and meditation session. Remember to take a few moments each day to practice mindfulness. Have a great day!"
 
+# Ask user if they want to schedule the next session
+read -p "Would you like to schedule your next session? (yes/no): " schedule_next_session
+
+if [ "$schedule_next_session" == "yes" ]; then
+    # Schedule the next session
+    read -p "Please enter the date and time for your next session (format: YYYY-MM-DD HH:MM): " next_session_datetime
+    (crontab -l 2>/dev/null; echo "$next_session_datetime $0") | crontab -
+    spd-say "Your next session has been scheduled for $next_session_datetime. Looking forward to seeing you then!"
+fi
+
 exit 0
