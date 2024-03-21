@@ -45,7 +45,8 @@ read -p "Would you like to schedule your next session? (yes/no): " schedule_next
 if [ "$schedule_next_session" == "yes" ]; then
     # Schedule the next session
     read -p "Please enter the date and time for your next session (format: YYYY-MM-DD HH:MM): " next_session_datetime
-    (crontab -l 2>/dev/null; echo "$next_session_datetime $0") | crontab -
+    next_session_datetime_unix=$(date -d"$next_session_datetime" +%s)
+    (crontab -l 2>/dev/null; echo "$next_session_datetime_unix $0") | crontab -
     spd-say "Your next session has been scheduled for $next_session_datetime. Looking forward to seeing you then!"
 fi
 
