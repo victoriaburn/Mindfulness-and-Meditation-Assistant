@@ -19,8 +19,22 @@ do
     sleep $breathing_duration
 done
 
+# Ask user if they want to play a custom sound file during the mindfulness exercise
+read -p "Would you like to play a custom sound file during the mindfulness exercise? (yes/no): " custom_sound_answer
+
+if [ "$custom_sound_answer" == "yes" ]; then
+    # Ask user for the path to the custom sound file
+    read -p "Please enter the path to the custom sound file: " custom_sound_file
+fi
+
 # Mindfulness exercise
 spd-say "Now, let's practice mindfulness. Close your eyes and focus on your breath. Notice the sensation of the air entering and leaving your body."
+
+if [ "$custom_sound_answer" == "yes" ]; then
+    # Play the custom sound file
+    aplay $custom_sound_file &
+fi
+
 sleep $mindfulness_duration
 
 # Ask user if they want a guided meditation
