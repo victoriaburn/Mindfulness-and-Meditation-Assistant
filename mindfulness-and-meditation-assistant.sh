@@ -3,10 +3,21 @@
 # Welcome message
 spd-say "Welcome to your mindfulness and meditation session. Let's start with a deep breath."
 
+# Function to validate if input is a number
+function validate_number() {
+    re='^[0-9]+$'
+    if ! [[ $1 =~ $re ]] ; then
+        echo "Error: Not a number" >&2; exit 1
+    fi
+}
+
 # Ask user for the duration of the breathing exercises, mindfulness exercise and reflection time
 read -p "Please enter the duration (in seconds) for each part of the breathing exercises: " breathing_duration
+validate_number $breathing_duration
 read -p "Please enter the duration (in seconds) for the mindfulness exercise: " mindfulness_duration
+validate_number $mindfulness_duration
 read -p "Please enter the duration (in seconds) for the reflection time: " reflection_duration
+validate_number $reflection_duration
 
 # Breathing exercises
 for i in {1..5}
