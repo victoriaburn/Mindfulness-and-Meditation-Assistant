@@ -77,6 +77,17 @@ if [ "$schedule_next_session" == "yes" ]; then
     next_session_datetime_unix=$(date -d"$next_session_datetime" +%s)
     (crontab -l 2>/dev/null; echo "$((next_session_datetime_unix/60)) * * * * $0") | crontab -
     spd-say -l $VOICE "Your next session has been scheduled for $next_session_datetime. Looking forward to seeing you then!"
+
+    # Ask user if they want to repeat the session
+    read -p "Would you like to repeat this session? (yes/no): " repeat_session
+
+    if [ "$repeat_session" == "yes" ]; then
+        # Ask user for the frequency of repetition
+        read -p "Please enter the frequency of repetition (in days): " repeat_frequency
+        validate_number $repeat_frequency
+        (crontab -l 2>/dev/null; echo "0 0 */$repeat_frequency * * $0") | crontab -
+        spd-say -l $VOICE "Your session has been scheduled to repeat every $repeat_frequency day(s)."
+    fi
 fi
 
 exit 0
