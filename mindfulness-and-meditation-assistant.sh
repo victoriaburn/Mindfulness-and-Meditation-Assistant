@@ -12,6 +12,17 @@ function validate_number() {
     fi
 }
 
+# Function to get voice
+function get_voice() {
+    read -p "Would you like to use the default voice (English) or a custom voice? (default/custom): " voice_choice
+    if [ "$voice_choice" == "custom" ]; then
+        read -p "Please enter the voice you want to use: " voice
+    else
+        voice="en"
+    fi
+    echo $voice
+}
+
 # Ask user for the duration of the breathing exercises, mindfulness exercise and reflection time
 read -p "Please enter the duration (in seconds) for each part of the breathing exercises: " breathing_duration
 validate_number $breathing_duration
@@ -19,6 +30,14 @@ read -p "Please enter the duration (in seconds) for the mindfulness exercise: " 
 validate_number $mindfulness_duration
 read -p "Please enter the duration (in seconds) for the reflection time: " reflection_duration
 validate_number $reflection_duration
+
+# Get voice for each part
+echo "For the breathing exercises:"
+breathing_voice=$(get_voice)
+echo "For the mindfulness exercise:"
+mindfulness_voice=$(get_voice)
+echo "For the reflection time:"
+reflection_voice=$(get_voice)
 
 # Ask user for the voice they want to use for each part
 read -p "Please enter the voice you want to use for the breathing exercises (default is English): " breathing_voice
