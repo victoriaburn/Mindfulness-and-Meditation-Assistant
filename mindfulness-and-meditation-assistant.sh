@@ -39,11 +39,6 @@ mindfulness_voice=$(get_voice)
 echo "For the reflection time:"
 reflection_voice=$(get_voice)
 
-# Ask user for the voice they want to use for each part
-read -p "Please enter the voice you want to use for the breathing exercises (default is English): " breathing_voice
-read -p "Please enter the voice you want to use for the mindfulness exercise (default is English): " mindfulness_voice
-read -p "Please enter the voice you want to use for the reflection time (default is English): " reflection_voice
-
 # Breathing exercises
 for i in {1..5}
 do
