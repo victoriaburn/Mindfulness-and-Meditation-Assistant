@@ -1,8 +1,7 @@
 #!/bin/bash
 
 # Welcome message
-VOICE="en"
-spd-say -l $VOICE "Welcome to your mindfulness and meditation session. Let's start with a deep breath."
+VOICE=$(get_voice "Welcome to your mindfulness and meditation session. Let's start with a deep breath.")
 
 # Function to validate if input is a number
 function validate_number() {
@@ -12,9 +11,16 @@ function validate_number() {
     fi
 }
 
+# Function to validate if file exists
+function validate_file() {
+    if ! [[ -f $1 ]]; then
+        echo "Error: File does not exist" >&2; exit 1
+    fi
+}
+
 # Function to get voice
 function get_voice() {
-    read -p "Would you like to use the default voice (English) or a custom voice? (default/custom): " voice_choice
+    read -p "Would you like to use the default voice (English) or a custom voice for $1? (default/custom): " voice_choice
     if [ "$voice_choice" == "custom" ]; then
         read -p "Please enter the voice you want to use: " voice
     else
@@ -56,6 +62,7 @@ read -p "Would you like to play a custom sound file during the mindfulness exerc
 if [ "$custom_sound_answer" == "yes" ]; then
     # Ask user for the path to the custom sound file
     read -p "Please enter the path to the custom sound file: " custom_sound_file
+    validate_file $custom_sound_file
 fi
 
 # Mindfulness exercise
@@ -82,7 +89,7 @@ spd-say -l $reflection_voice "Now, reflect on your day. Think about what went we
 sleep $reflection_duration
 
 # Conclusion
-spd-say -l $reflection_voice "Great job! You have completed your mindfulness and meditation session. Remember to take a few moments each day to practice mindfulness. Have a great day!"
+VOICE=$(get_voice "Great job! You have completed your mindfulness and meditation session. Remember to take a few moments each day to practice mindfulness. Have a great day!")
 
 # Ask user if they want to schedule the next session
 read -p "Would you like to schedule your next session? (yes/no): " schedule_next_session
