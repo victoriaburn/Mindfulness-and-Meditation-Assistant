@@ -79,8 +79,11 @@ sleep $mindfulness_duration
 read -p "Would you like a guided meditation? (yes/no): " guided_meditation_answer
 
 if [ "$guided_meditation_answer" == "yes" ]; then
+    # Get voice for guided meditation
+    echo "For the guided meditation:"
+    guided_meditation_voice=$(get_voice)
     # Guided meditation
-    spd-say -l $mindfulness_voice "Now, imagine you are in a peaceful place. It could be a forest, a beach, or anywhere you find calming. Visualize the details of this place. What do you see? What do you hear? What do you smell? Stay in this place for as long as you need."
+    spd-say -l $guided_meditation_voice "Now, imagine you are in a peaceful place. It could be a forest, a beach, or anywhere you find calming. Visualize the details of this place. What do you see? What do you hear? What do you smell? Stay in this place for as long as you need."
     sleep $mindfulness_duration
 fi
 
