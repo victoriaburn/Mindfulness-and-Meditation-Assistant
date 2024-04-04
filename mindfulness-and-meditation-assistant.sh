@@ -29,6 +29,17 @@ function get_voice() {
     echo $voice
 }
 
+# Function to get meditation text
+function get_meditation_text() {
+    read -p "Would you like to use the default meditation text or a custom text? (default/custom): " text_choice
+    if [ "$text_choice" == "custom" ]; then
+        read -p "Please enter the meditation text you want to use: " text
+    else
+        text="Now, imagine you are in a peaceful place. It could be a forest, a beach, or anywhere you find calming. Visualize the details of this place. What do you see? What do you hear? What do you smell? Stay in this place for as long as you need."
+    fi
+    echo $text
+}
+
 # Ask user for the duration of the breathing exercises, mindfulness exercise and reflection time
 read -p "Please enter the duration (in seconds) for each part of the breathing exercises: " breathing_duration
 validate_number $breathing_duration
@@ -78,12 +89,14 @@ sleep $mindfulness_duration
 # Ask user if they want a guided meditation
 read -p "Would you like a guided meditation? (yes/no): " guided_meditation_answer
 
+# Guided meditation
 if [ "$guided_meditation_answer" == "yes" ]; then
     # Get voice for guided meditation
     echo "For the guided meditation:"
     guided_meditation_voice=$(get_voice)
-    # Guided meditation
-    spd-say -l $guided_meditation_voice "Now, imagine you are in a peaceful place. It could be a forest, a beach, or anywhere you find calming. Visualize the details of this place. What do you see? What do you hear? What do you smell? Stay in this place for as long as you need."
+    # Get meditation text
+    guided_meditation_text=$(get_meditation_text)
+    spd-say -l $guided_meditation_voice "$guided_meditation_text"
     sleep $mindfulness_duration
 fi
 
