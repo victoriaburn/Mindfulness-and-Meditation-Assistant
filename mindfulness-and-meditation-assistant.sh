@@ -40,6 +40,11 @@ function get_meditation_text() {
     echo $text
 }
 
+# Function to log meditation session
+function log_session() {
+    echo "$(date): Meditation session completed" >> meditation_log.txt
+}
+
 # Ask user for the duration of the breathing exercises, mindfulness exercise and reflection time
 read -p "Please enter the duration (in seconds) for each part of the breathing exercises: " breathing_duration
 validate_number $breathing_duration
@@ -106,6 +111,9 @@ sleep $reflection_duration
 
 # Conclusion
 VOICE=$(get_voice "Great job! You have completed your mindfulness and meditation session. Remember to take a few moments each day to practice mindfulness. Have a great day!")
+
+# Log the completed session
+log_session
 
 # Ask user if they want to schedule the next session
 read -p "Would you like to schedule your next session? (yes/no): " schedule_next_session
