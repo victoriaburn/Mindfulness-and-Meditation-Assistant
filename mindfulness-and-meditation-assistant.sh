@@ -42,7 +42,10 @@ function get_meditation_text() {
 
 # Function to log meditation session
 function log_session() {
-    echo "$(date): Meditation session completed" >> meditation_log.txt
+    read -p "Would you like to log this meditation session? (yes/no): " log_choice
+    if [ "$log_choice" == "yes" ]; then
+        echo "$(date): Meditation session completed" >> meditation_log.txt
+    fi
 }
 
 # Ask user for the duration of the breathing exercises, mindfulness exercise and reflection time
