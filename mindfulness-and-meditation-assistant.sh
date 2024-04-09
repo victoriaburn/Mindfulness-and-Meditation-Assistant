@@ -29,6 +29,10 @@ function get_voice() {
     echo $voice
 }
 
+# Welcome message
+VOICE=$(get_voice "Welcome to your mindfulness and meditation session. Let's start with a deep breath.")
+spd-say -l $VOICE "Welcome to your mindfulness and meditation session. Let's start with a deep breath."
+
 # Function to get meditation text
 function get_meditation_text() {
     read -p "Would you like to use the default meditation text or a custom text? (default/custom): " text_choice
@@ -114,6 +118,7 @@ sleep $reflection_duration
 
 # Conclusion
 VOICE=$(get_voice "Great job! You have completed your mindfulness and meditation session. Remember to take a few moments each day to practice mindfulness. Have a great day!")
+spd-say -l $VOICE "Great job! You have completed your mindfulness and meditation session. Remember to take a few moments each day to practice mindfulness. Have a great day!"
 
 # Log the completed session
 log_session
