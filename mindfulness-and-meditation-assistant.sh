@@ -112,8 +112,23 @@ if [ "$guided_meditation_answer" == "yes" ]; then
     sleep $mindfulness_duration
 fi
 
+# Ask user if they want to play a custom sound file during the reflection time
+read -p "Would you like to play a custom sound file during the reflection time? (yes/no): " reflection_sound_answer
+
+if [ "$reflection_sound_answer" == "yes" ]; then
+    # Ask user for the path to the custom sound file
+    read -p "Please enter the path to the custom sound file for reflection time: " reflection_sound_file
+    validate_file $reflection_sound_file
+fi
+
 # Reflection
 spd-say -l $reflection_voice "Now, reflect on your day. Think about what went well and what you could improve."
+
+if [ "$reflection_sound_answer" == "yes" ]; then
+    # Play the custom sound file
+    aplay $reflection_sound_file &
+fi
+
 sleep $reflection_duration
 
 # Conclusion
