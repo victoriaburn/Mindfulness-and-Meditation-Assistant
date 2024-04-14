@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Welcome message
-VOICE=$(get_voice "Welcome to your mindfulness and meditation session. Let's start with a deep breath.")
-
 # Function to validate if input is a number
 function validate_number() {
     re='^[0-9]+$'
