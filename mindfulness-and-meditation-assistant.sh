@@ -133,6 +133,7 @@ VOICE=$(get_voice "Great job! You have completed your mindfulness and meditation
 spd-say -l $VOICE "Great job! You have completed your mindfulness and meditation session. Remember to take a few moments each day to practice mindfulness. Have a great day!"
 
 # Log the completed session
+VOICE=$(get_voice "Would you like to log this meditation session?")
 log_session
 
 # Ask user if they want to schedule the next session
