@@ -59,11 +59,11 @@ validate_number $reflection_duration
 
 # Get voice for each part
 echo "For the breathing exercises:"
-breathing_voice=$(get_voice)
+breathing_voice=$(get_voice "Inhale deeply.")
 echo "For the mindfulness exercise:"
-mindfulness_voice=$(get_voice)
+mindfulness_voice=$(get_voice "Now, let's practice mindfulness. Close your eyes and focus on your breath. Notice the sensation of the air entering and leaving your body.")
 echo "For the reflection time:"
-reflection_voice=$(get_voice)
+reflection_voice=$(get_voice "Now, reflect on your day. Think about what went well and what you could improve.")
 
 # Breathing exercises
 for i in {1..5}
@@ -102,7 +102,7 @@ read -p "Would you like a guided meditation? (yes/no): " guided_meditation_answe
 if [ "$guided_meditation_answer" == "yes" ]; then
     # Get voice for guided meditation
     echo "For the guided meditation:"
-    guided_meditation_voice=$(get_voice)
+    guided_meditation_voice=$(get_voice "Now, imagine you are in a peaceful place. It could be a forest, a beach, or anywhere you find calming. Visualize the details of this place. What do you see? What do you hear? What do you smell? Stay in this place for as long as you need.")
     # Get meditation text
     guided_meditation_text=$(get_meditation_text)
     spd-say -l $guided_meditation_voice "$guided_meditation_text"
