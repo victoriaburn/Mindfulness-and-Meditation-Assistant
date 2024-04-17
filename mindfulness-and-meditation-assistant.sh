@@ -26,8 +26,24 @@ function get_voice() {
     echo $voice
 }
 
+# Function to get global voice
+function get_global_voice() {
+    read -p "Would you like to use the same voice for all parts of the session? (yes/no): " global_voice_choice
+    if [ "$global_voice_choice" == "yes" ]; then
+        read -p "Please enter the voice you want to use: " global_voice
+    else
+        global_voice=""
+    fi
+    echo $global_voice
+}
+
 # Welcome message
-VOICE=$(get_voice "Welcome to your mindfulness and meditation session. Let's start with a deep breath.")
+GLOBAL_VOICE=$(get_global_voice)
+if [ -z "$GLOBAL_VOICE" ]; then
+    VOICE=$(get_voice "Welcome to your mindfulness and meditation session. Let's start with a deep breath.")
+else
+    VOICE=$GLOBAL_VOICE
+fi
 spd-say -l $VOICE "Welcome to your mindfulness and meditation session. Let's start with a deep breath."
 
 # Function to get meditation text
