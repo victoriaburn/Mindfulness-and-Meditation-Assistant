@@ -162,15 +162,15 @@ if [ "$schedule_next_session" == "yes" ]; then
     (crontab -l 2>/dev/null; echo "$((next_session_datetime_unix/60)) * * * * $0") | crontab -
     spd-say -l $VOICE "Your next session has been scheduled for $next_session_datetime. Looking forward to seeing you then!"
 
-    # Ask user if they want to repeat the session
-    read -p "Would you like to repeat this session? (yes/no): " repeat_session
+    # Ask user if they want a reminder before the next session
+    read -p "Would you like to receive a reminder before your next session? (yes/no): " reminder_choice
 
-    if [ "$repeat_session" == "yes" ]; then
-        # Ask user for the frequency of repetition
-        read -p "Please enter the frequency of repetition (in days): " repeat_frequency
-        validate_number $repeat_frequency
-        (crontab -l 2>/dev/null; echo "0 0 */$repeat_frequency * * $0") | crontab -
-        spd-say -l $VOICE "Your session has been scheduled to repeat every $repeat_frequency day(s)."
+    if [ "$reminder_choice" == "yes" ]; then
+        # Ask user for the reminder time
+        read -p "Please enter how many minutes before the session you want to receive the reminder: " reminder_time
+        validate_number $reminder_time
+        reminder_datetime_unix=$(($next_session_datetime_unix - $reminder_time*60))
+        (crontab -l 2>/dev/null; echo "$((reminder_datetime_unix/60)) * * * * spd-say -l $VOICE 'Your meditation session will start in $reminder_time minutes.'") | crontab -
     fi
 fi
 
