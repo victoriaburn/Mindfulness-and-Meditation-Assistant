@@ -1,5 +1,33 @@
 #!/bin/bash
 
+# Function to save preferences
+function save_preferences() {
+    read -p "Would you like to save your preferences for future sessions? (yes/no): " save_choice
+    if [ "$save_choice" == "yes" ]; then
+        echo "breathing_duration=$breathing_duration" > preferences.txt
+        echo "mindfulness_duration=$mindfulness_duration" >> preferences.txt
+        echo "reflection_duration=$reflection_duration" >> preferences.txt
+        echo "breathing_voice=$breathing_voice" >> preferences.txt
+        echo "mindfulness_voice=$mindfulness_voice" >> preferences.txt
+        echo "reflection_voice=$reflection_voice" >> preferences.txt
+        echo "custom_sound_file=$custom_sound_file" >> preferences.txt
+        echo "guided_meditation_voice=$guided_meditation_voice" >> preferences.txt
+        echo "guided_meditation_text=$guided_meditation_text" >> preferences.txt
+        echo "reflection_sound_file=$reflection_sound_file" >> preferences.txt
+        echo "VOICE=$VOICE" >> preferences.txt
+    fi
+}
+
+# Function to load preferences
+function load_preferences() {
+    if [[ -f preferences.txt ]]; then
+        source preferences.txt
+    fi
+}
+
+# Load preferences at the start of the script
+load_preferences
+
 # Function to validate if input is a number
 function validate_number() {
     re='^[0-9]+$'
@@ -174,5 +202,8 @@ if [ "$repeat_session" == "yes" ]; then
         run_session
     done
 fi
+
+# Save preferences at the end of the script
+save_preferences
 
 exit 0
