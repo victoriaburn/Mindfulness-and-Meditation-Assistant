@@ -84,6 +84,16 @@ function log_session() {
     fi
 }
 
+# Function to skip part
+function skip_part() {
+    read -p "Would you like to skip $1? (yes/no): " skip_choice
+    if [ "$skip_choice" == "yes" ]; then
+        return 1
+    else
+        return 0
+    fi
+}
+
 # Function to run the meditation session
 function run_session() {
     # Welcome message
@@ -112,15 +122,17 @@ function run_session() {
     reflection_voice=$(get_voice "Now, reflect on your day. Think about what went well and what you could improve.")
 
     # Breathing exercises
-    for i in {1..5}
-    do
-        spd-say -l $breathing_voice "Inhale deeply."
-        sleep $breathing_duration
-        spd-say -l $breathing_voice "Hold your breath."
-        sleep $breathing_duration
-        spd-say -l $breathing_voice "Exhale slowly."
-        sleep $breathing_duration
-    done
+    if skip_part "breathing exercises"; then
+        for i in {1..5}
+        do
+            spd-say -l $breathing_voice "Inhale deeply."
+            sleep $breathing_duration
+            spd-say -l $breathing_voice "Hold your breath."
+            sleep $breathing_duration
+            spd-say -l $breathing_voice "Exhale slowly."
+            sleep $breathing_duration
+        done
+    fi
 
     # Ask user if they want to play a custom sound file during the mindfulness exercise
     read -p "Would you like to play a custom sound file during the mindfulness exercise? (yes/no): " custom_sound_answer
