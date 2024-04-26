@@ -93,6 +93,21 @@ function skip_part() {
         return 0
     fi
 }
+# Function to get default durations
+function get_default_durations() {
+    read -p "Would you like to set default durations for the breathing exercises, mindfulness exercise, and reflection time? (yes/no): " default_durations_choice
+    if [ "$default_durations_choice" == "yes" ]; then
+        read -p "Please enter the default duration (in seconds) for the breathing exercises: " default_breathing_duration
+        validate_number $default_breathing_duration
+        read -p "Please enter the default duration (in seconds) for the mindfulness exercise: " default_mindfulness_duration
+        validate_number $default_mindfulness_duration
+        read -p "Please enter the default duration (in seconds) for the reflection time: " default_reflection_duration
+        validate_number $default_reflection_duration
+        echo "default_breathing_duration=$default_breathing_duration" >> preferences.txt
+        echo "default_mindfulness_duration=$default_mindfulness_duration" >> preferences.txt
+        echo "default_reflection_duration=$default_reflection_duration" >> preferences.txt
+    fi
+}
 
 # Function to run the meditation session
 function run_session() {
@@ -105,13 +120,19 @@ function run_session() {
     fi
     spd-say -l $VOICE "Welcome to your mindfulness and meditation session. Let's start with a deep breath."
 
-    # Ask user for the duration of the breathing exercises, mindfulness exercise and reflection time
-    read -p "Please enter the duration (in seconds) for each part of the breathing exercises: " breathing_duration
-    validate_number $breathing_duration
-    read -p "Please enter the duration (in seconds) for the mindfulness exercise: " mindfulness_duration
-    validate_number $mindfulness_duration
-    read -p "Please enter the duration (in seconds) for the reflection time: " reflection_duration
-    validate_number $reflection_duration
+    # Load default durations at the start of the script
+    get_default_durations
+
+    # Use default durations if they are set
+    if [[ -n $default_breathing_duration ]]; then
+        breathing_duration=$default_breathing_duration
+    fi
+    if [[ -n $default_mindfulness_duration ]]; then
+        mindfulness_duration=$default_mindfulness_duration
+    fi
+    if [[ -n $default_reflection_duration ]]; then
+        reflection_duration=$default_reflection_duration
+    fi
 
     # Get voice for each part
     echo "For the breathing exercises:"
