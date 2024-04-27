@@ -235,6 +235,19 @@ if [ "$repeat_session" == "yes" ]; then
         run_session
     done
 fi
+# Function to set reminder
+function set_reminder() {
+    read -p "Would you like to set a reminder for your next meditation session? (yes/no): " reminder_choice
+    if [ "$reminder_choice" == "yes" ]; then
+        read -p "Please enter the number of hours until the next reminder: " reminder_hours
+        validate_number $reminder_hours
+        echo "Reminder set for $reminder_hours hours from now."
+        echo "Reminder set for $reminder_hours hours from now." | at now + $reminder_hours hours
+    fi
+}
+
+# Set reminder at the end of the script
+set_reminder
 
 # Save preferences at the end of the script
 save_preferences
