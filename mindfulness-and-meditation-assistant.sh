@@ -4,6 +4,7 @@
 function save_preferences() {
     read -p "Would you like to save your preferences for future sessions? (yes/no): " save_choice
     if [ "$save_choice" == "yes" ]; then
+        echo "default_voice=$default_voice" >> preferences.txt
         echo "breathing_duration=$breathing_duration" > preferences.txt
         echo "mindfulness_duration=$mindfulness_duration" >> preferences.txt
         echo "reflection_duration=$reflection_duration" >> preferences.txt
@@ -42,6 +43,17 @@ function validate_file() {
         echo "Error: File does not exist" >&2; exit 1
     fi
 }
+
+# Function to get default voice
+function get_default_voice() {
+    read -p "Would you like to set a default voice for the session? (yes/no): " default_voice_choice
+    if [ "$default_voice_choice" == "yes" ]; then
+        read -p "Please enter the default voice you want to use: " default_voice
+    fi
+}
+
+# Get default voice at the start of the script
+get_default_voice
 
 # Function to get voice
 function get_voice() {
