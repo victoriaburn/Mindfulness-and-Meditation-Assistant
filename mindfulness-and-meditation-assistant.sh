@@ -12,9 +12,9 @@ function save_preferences() {
         echo "mindfulness_voice=$mindfulness_voice" >> preferences.txt
         echo "reflection_voice=$reflection_voice" >> preferences.txt
         echo "custom_sound_file=$custom_sound_file" >> preferences.txt
+        echo "reflection_sound_file=$reflection_sound_file" >> preferences.txt
         echo "guided_meditation_voice=$guided_meditation_voice" >> preferences.txt
         echo "guided_meditation_text=$guided_meditation_text" >> preferences.txt
-        echo "reflection_sound_file=$reflection_sound_file" >> preferences.txt
         echo "VOICE=$VOICE" >> preferences.txt
     fi
 }
@@ -105,6 +105,7 @@ function skip_part() {
         return 0
     fi
 }
+
 # Function to get default durations
 function get_default_durations() {
     read -p "Would you like to set default durations for the breathing exercises, mindfulness exercise, and reflection time? (yes/no): " default_durations_choice
@@ -120,6 +121,22 @@ function get_default_durations() {
         echo "default_reflection_duration=$default_reflection_duration" >> preferences.txt
     fi
 }
+
+# Function to get default sound files
+function get_default_sound_files() {
+    read -p "Would you like to set default sound files for the mindfulness exercise and reflection time? (yes/no): " default_sound_files_choice
+    if [ "$default_sound_files_choice" == "yes" ]; then
+        read -p "Please enter the path to the default sound file for the mindfulness exercise: " default_mindfulness_sound_file
+        validate_file $default_mindfulness_sound_file
+        read -p "Please enter the path to the default sound file for the reflection time: " default_reflection_sound_file
+        validate_file $default_reflection_sound_file
+        echo "default_mindfulness_sound_file=$default_mindfulness_sound_file" >> preferences.txt
+        echo "default_reflection_sound_file=$default_reflection_sound_file" >> preferences.txt
+    fi
+}
+
+# Load default sound files at the start of the script
+get_default_sound_files
 
 # Function to run the meditation session
 function run_session() {
@@ -174,12 +191,14 @@ function run_session() {
         # Ask user for the path to the custom sound file
         read -p "Please enter the path to the custom sound file: " custom_sound_file
         validate_file $custom_sound_file
+    elif [[ -n $default_mindfulness_sound_file ]]; then
+        custom_sound_file=$default_mindfulness_sound_file
     fi
 
     # Mindfulness exercise
     spd-say -l $mindfulness_voice "Now, let's practice mindfulness. Close your eyes and focus on your breath. Notice the sensation of the air entering and leaving your body."
 
-    if [ "$custom_sound_answer" == "yes" ]; then
+    if [[ -n $custom_sound_file ]]; then
         # Play the custom sound file
         aplay $custom_sound_file &
     fi
@@ -207,12 +226,14 @@ function run_session() {
         # Ask user for the path to the custom sound file
         read -p "Please enter the path to the custom sound file for reflection time: " reflection_sound_file
         validate_file $reflection_sound_file
+    elif [[ -n $default_reflection_sound_file ]]; then
+        reflection_sound_file=$default_reflection_sound_file
     fi
 
     # Reflection
     spd-say -l $reflection_voice "Now, reflect on your day. Think about what went well and what you could improve."
 
-    if [ "$reflection_sound_answer" == "yes" ]; then
+    if [[ -n $reflection_sound_file ]]; then
         # Play the custom sound file
         aplay $reflection_sound_file &
     fi
@@ -247,6 +268,7 @@ if [ "$repeat_session" == "yes" ]; then
         run_session
     done
 fi
+
 # Function to set reminder
 function set_reminder() {
     read -p "Would you like to set a reminder for your next meditation session? (yes/no): " reminder_choice
