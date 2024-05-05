@@ -1,5 +1,32 @@
 #!/bin/bash
 
+# Function to display usage
+function usage() {
+    echo "Usage: $0 [--help]"
+    echo
+    echo "Options:"
+    echo "  --help    Display this help message and exit"
+    echo
+    echo "This script guides you through a mindfulness and meditation session."
+    echo "You can customize the session by setting preferences for voices, durations, and sound files."
+    echo "You can also log the session, repeat the session, and set a reminder for the next session."
+    exit 0
+}
+
+# Check command line options
+for i in "$@"
+do
+case $i in
+    --help)
+    usage
+    shift
+    ;;
+    *)
+    # unknown option
+    ;;
+esac
+done
+
 # Function to save preferences
 function save_preferences() {
     read -p "Would you like to save your preferences for future sessions? (yes/no): " save_choice
